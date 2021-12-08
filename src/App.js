@@ -1,7 +1,7 @@
 import { getHolidays } from "./components/api";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { yesterday, today, lastweek, lastmonth } from "./util";
+import { yesterday, today, lastweek, lastmonth, lastyear } from "./util";
 const App = () => {
   const [state, setState] = useState({
     england: [],
@@ -13,7 +13,8 @@ const App = () => {
   const [val, setVal] = useState("england");
   const [dateFilter, setDateFilter] = useState("all");
   const [finalData, setFinalData] = useState([]);
-
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState(today);
   const { england, scotland, ireland } = state;
 
   useEffect(() => {
@@ -24,28 +25,32 @@ const App = () => {
         ireland: data["northern-ireland"].events,
       });
       setCountry(data["england-and-wales"].events);
+      setFinalData(data["england-and-wales"].events);
     });
   }, []);
 
-  let yesterdayResult = country.filter((data) => {
-    return data.date >= yesterday && data.date <= today;
-  });
-  let lastWeekResult = country.filter((data) => {
-    return data.date >= lastweek && data.date <= today;
-  });
-  let lastMonthResult = country.filter((data) => {
-    return data.date >= lastmonth && data.date <= today;
-  });
+  useEffect(() => {
+    setDateFilter("all");
+    setFinalData(country);
+  }, [country]);
 
-  const customResult = (startDate, endDate) => {
+  const Filter = (span) => {
     return country.filter((data) => {
-      return data.date >= startDate && data.date <= endDate;
+      return data.date >= span && data.date <= today;
     });
   };
 
-  // console.log("customresult", customResult("2017-01-02", "2017-05-01"));
+  let yesterdayResult = Filter(yesterday);
+  let lastWeekResult = Filter(lastweek);
+  let lastMonthResult = Filter(lastmonth);
+  let lastYearResult = Filter(lastyear);
 
-  console.log();
+  const customResult = (sDate, eDate) => {
+    return country.filter((data) => {
+      return data.date >= sDate && data.date <= eDate;
+    });
+  };
+
   return (
     <div className="App">
       <select onChange={(e) => setVal(e.target.value)} placeholder="country">
@@ -60,32 +65,99 @@ const App = () => {
         </option>
       </select>
 
-      {/* //////////////////////// */}
-      <select onChange={(e) => setDateFilter(e.target.value)}>
-        <option onClick={() => setCountry(england)} value="all">
+      <select>
+        <option
+          onClick={() => {
+            setFinalData(country);
+            setDateFilter("all");
+          }}
+          value={dateFilter}
+          defaultValue={"all"}
+        >
           Show All
-        </option>{" "}
-        <option onClick={() => setCountry(england)} value="yesterday">
+        </option>
+        <option
+          onClick={() => {
+            setFinalData(yesterdayResult);
+            setDateFilter("yesterday");
+          }}
+          value={dateFilter}
+        >
           yesterday
-        </option>{" "}
-        <option onClick={() => setCountry(england)} value="last week">
+        </option>
+        <option
+          onClick={() => {
+            setFinalData(lastWeekResult);
+            setDateFilter("lastweek");
+          }}
+          value={dateFilter}
+        >
           last week
-        </option>{" "}
-        <option onClick={() => setCountry(england)} value="last month">
+        </option>
+        <option
+          onClick={() => {
+            setFinalData(lastMonthResult);
+            setDateFilter("lastmonth");
+          }}
+          value={dateFilter}
+        >
           last month
         </option>{" "}
-        <option onClick={() => setCountry(england)} value="custom">
+        <option
+          onClick={() => {
+            setFinalData(lastYearResult);
+            setDateFilter("lastyear");
+          }}
+          value={dateFilter}
+        >
+          last year
+        </option>{" "}
+        <option
+          onClick={() => {
+            setDateFilter("custom");
+            setFinalData([]);
+            setFinalData(customResult(startDate, endDate));
+          }}
+          value={dateFilter}
+        >
           custom Date
         </option>
       </select>
-      {dateFilter == "custom" && <input type="date" />}
+      {dateFilter === "custom" && (
+        <div className="">
+          <input
+            type="date"
+            onChange={(e) => {
+              setStartDate(e.target.value);
+              setFinalData(customResult(e.target.value, endDate));
+            }}
+            value={startDate}
+          />
+          <input
+            type="date"
+            onChange={(e) => {
+              setEndDate(e.target.value);
+              setFinalData(customResult(startDate, e.target.value));
+            }}
+            value={endDate}
+          />
+        </div>
+      )}
 
       <h1>showing result for {val}</h1>
 
-      {country &&
-        country.map((data) => {
-          return <h3 key={uuid()}>{data.title}</h3>;
-        })}
+      {finalData.length === 0 ? (
+        <h2>No Holidays Found</h2>
+      ) : (
+        finalData.map((data) => {
+          return (
+            <div key={uuid()} className="">
+              <h3>{data.title}</h3>
+              <p>{data.date}</p>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 };

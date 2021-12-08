@@ -25,3 +25,9 @@ export const today = `${currentYear}-${currentMonth}-${currentDay}`;
 export const yesterday = `${currentYear}-${currentMonth}-${currentDay - 1}`;
 export const lastweek = `${currentYear}-${currentMonth}-${currentDay - 7}`;
 export const lastmonth = `${currentYear}-${currentMonth - 1}-${currentDay}`;
+export const lastyear = `${currentYear - 1}-${currentMonth}-${currentDay}`;
+
+// console.log(today);
+// console.log(yesterday);
+// console.log(lastweek);
+// console.log(lastmonth);
