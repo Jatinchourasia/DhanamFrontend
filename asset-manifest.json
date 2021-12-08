@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/DhanamFrontend/static/css/main.49f60980.chunk.css",
+    "main.js": "/DhanamFrontend/static/js/main.e0140bdc.chunk.js",
+    "main.js.map": "/DhanamFrontend/static/js/main.e0140bdc.chunk.js.map",
+    "runtime-main.js": "/DhanamFrontend/static/js/runtime-main.71fefa22.js",
+    "runtime-main.js.map": "/DhanamFrontend/static/js/runtime-main.71fefa22.js.map",
+    "static/js/2.1fd8a26a.chunk.js": "/DhanamFrontend/static/js/2.1fd8a26a.chunk.js",
+    "static/js/2.1fd8a26a.chunk.js.map": "/DhanamFrontend/static/js/2.1fd8a26a.chunk.js.map",
+    "static/js/3.0b480c71.chunk.js": "/DhanamFrontend/static/js/3.0b480c71.chunk.js",
+    "static/js/3.0b480c71.chunk.js.map": "/DhanamFrontend/static/js/3.0b480c71.chunk.js.map",
+    "index.html": "/DhanamFrontend/index.html",
+    "static/css/main.49f60980.chunk.css.map": "/DhanamFrontend/static/css/main.49f60980.chunk.css.map",
+    "static/js/2.1fd8a26a.chunk.js.LICENSE.txt": "/DhanamFrontend/static/js/2.1fd8a26a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.71fefa22.js",
+    "static/js/2.1fd8a26a.chunk.js",
+    "static/css/main.49f60980.chunk.css",
+    "static/js/main.e0140bdc.chunk.js"
+  ]
+}
