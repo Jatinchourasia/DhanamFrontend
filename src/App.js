@@ -72,7 +72,7 @@ const App = () => {
             setDateFilter("all");
           }}
           value={dateFilter}
-          defaultValue={"all"}
+          selected={dateFilter === "all"}
         >
           Show All
         </option>
