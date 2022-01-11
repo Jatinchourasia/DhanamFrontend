@@ -19,6 +19,23 @@ const Home = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState(today);
   const { england, scotland, ireland } = state;
+  const [input, setInput] = useState("");
+
+  const searchFilter = (input) => {
+    console.log(input);
+    return finalData.filter((data) => {
+      return data.title === input;
+    });
+  };
+
+  const search = () => {
+    // take input
+    // apply filter
+    const searchData = searchFilter(input);
+    setFinalData(searchData);
+    // console.log(searchData);
+    // set data to final data
+  };
 
   useEffect(() => {
     getHolidays().then((data) => {
@@ -43,6 +60,7 @@ const Home = () => {
     });
   };
 
+  // console.log(finalData);
   let yesterdayResult = Filter(yesterday);
   let lastWeekResult = Filter(lastweek);
   let lastMonthResult = Filter(lastmonth);
@@ -126,6 +144,7 @@ const Home = () => {
           custom Date
         </option>
       </select>
+
       {dateFilter === "custom" && (
         <div className="">
           <input
@@ -146,6 +165,13 @@ const Home = () => {
           />
         </div>
       )}
+
+      <input
+        type="text"
+        onChange={(e) => setInput(e.target.value)}
+        className="search"
+      />
+      <button onClick={search}>search</button>
 
       <h1>showing result for {val}</h1>
 
